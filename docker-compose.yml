@@ -1,0 +1,61 @@
+
+volumes:
+  sql_data:
+
+networks:
+  svea-net:
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: svea-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=BenjiSql123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - svea-net
+
+  userservice:
+    build: ./UserService
+    container_name: svea-userservice
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__UserDb=Server=sqlserver;Database=UserDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;
+      - Jwt__Key=X4JbN9sPq3T6vH2kL8cW0yR7fG5eD1zQ9mV4bU6nT3sP8qW2xD7cK5vG8hJ4rL2
+    ports:
+      - "5001:8080"
+    networks:
+      - svea-net
+
+  timetrackingservice:
+    build: ./TimeTrackingService
+    container_name: svea-timetracking
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__TimeDb=Server=sqlserver;Database=TimeDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;
+      - Jwt__Key=X4JbN9sPq3T6vH2kL8cW0yR7fG5eD1zQ9mV4bU6nT3sP8qW2xD7cK5vG8hJ4rL2
+    ports:
+      - "5002:8080"
+    networks:
+      - svea-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: svea-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - svea-net
+    restart: always

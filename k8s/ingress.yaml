@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: svea-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: local.svea.com
+    http:
+      paths:
+      - path: /users
+        pathType: Prefix
+        backend:
+          service:
+            name: userservice
+            port:
+              number: 80
+      - path: /timetracking
+        pathType: Prefix
+        backend:
+          service:
+            name: timetrackingservice
+            port:
+              number: 80

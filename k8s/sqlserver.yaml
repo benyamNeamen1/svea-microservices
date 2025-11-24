@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver             
+spec:
+  replicas: 1              
+  selector:
+    matchLabels:
+      app: sqlserver         
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+      - name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+        - containerPort: 1433   
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: "BenjiSql123!"
+        volumeMounts:
+        - mountPath: /var/opt/mssql   
+          name: sql-storage
+      volumes:
+      - name: sql-storage
+        persistentVolumeClaim:
+          claimName: sql-pvc     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver              
+spec:
+  selector:
+    app: sqlserver             
+  ports:
+    - protocol: TCP
+      port: 1433               
+      targetPort: 1433        

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+spec:
+  replicas: 2                 
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+      - name: userservice
+        image: benyamdocker/userservice:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ConnectionStrings__UserDb
+          value: "Server=sqlserver;Database=UserDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  selector:
+    app: userservice
+  ports:
+    - protocol: TCP
+      port: 80                
+      targetPort: 8080         

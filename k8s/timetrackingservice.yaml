@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timetrackingservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: timetrackingservice
+  template:
+    metadata:
+      labels:
+        app: timetrackingservice
+    spec:
+      containers:
+      - name: timetrackingservice
+        image: benyamdocker/timetrackingservice:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: ConnectionStrings__TimeDb
+          value: "Server=sqlserver;Database=TimeDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timetrackingservice
+spec:
+  selector:
+    app: timetrackingservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

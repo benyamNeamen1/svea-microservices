@@ -1,0 +1,21 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.vs/
+*.vscode/
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+*.log
+
+# Docker
+*.env
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
