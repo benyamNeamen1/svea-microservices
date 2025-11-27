@@ -9,7 +9,6 @@ This project is a **microservices-based time tracking and user management system
 - **RabbitMQ** – Handles asynchronous communication and user validation between services.  
 - **SQL Server** – Stores user and work session data.
 
-The system is designed for **scalability, security, and cloud-native deployment**.
 
 ---
 
