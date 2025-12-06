@@ -22,7 +22,7 @@ spec:
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
         - name: ConnectionStrings__UserDb
-          value: "Server=sqlserver;Database=UserDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;"
+          value: "Server=sqlserver;Database=UserDb;User Id=sa;Password=BenjiSql123!;TrustServerCertificate=True;" 
 ---
 apiVersion: v1
 kind: Service
@@ -34,4 +34,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80                
-      targetPort: 8080         
+      targetPort: 8080          
