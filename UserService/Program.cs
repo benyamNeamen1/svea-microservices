@@ -68,7 +68,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
-app.UsePathBase("/users");
+app.UsePathBase("/api/users");
 
 
 app.UseAuthentication();
@@ -79,7 +79,7 @@ app.MapGet("/health", () => Results.Ok("Healthy"));
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/users/swagger/v1/swagger.json", "User API V1");
+    c.SwaggerEndpoint("/api/users/swagger/v1/swagger.json", "User API V1");
     c.RoutePrefix = "swagger";
 });
 

@@ -8,14 +8,14 @@ spec:
   - host: local.svea.com
     http:
       paths:
-      - path: /users
+      - path: /api/users
         pathType: Prefix
         backend:
           service:
             name: userservice
             port:
               number: 80
-      - path: /timetracking
+      - path: /api/timetracking
         pathType: Prefix
         backend:
           service:

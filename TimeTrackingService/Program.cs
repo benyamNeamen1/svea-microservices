@@ -91,7 +91,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UsePathBase("/timetracking");
+app.UsePathBase("/api/timetracking");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
@@ -100,7 +100,7 @@ app.MapGet("/health", () => Results.Ok("Healthy"));
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/timetracking/swagger/v1/swagger.json", "Time API V1");
+    c.SwaggerEndpoint("/api/timetracking/swagger/v1/swagger.json", "Time API V1");
     c.RoutePrefix = "swagger";
 });
 
